@@ -5,7 +5,7 @@ end
 
 Quando(/^digito a palavra Samsung na Busca do site e clico ENTER$/) do
 fill_in('ft', :with => 'Samsung')
-click_button('Procurar')
+find('.search-icon' ,match: :first).click
 end
 
 Então(/^será retornado uma lista com todos os aparelhos Samsung$/) do
@@ -17,13 +17,13 @@ end
 Dado(/^que realizei uma pesquisa para Samsung$/) do
 visit 'https://www.walmart.com.br/'
 fill_in('ft', :with => 'Samsung')
-click_button('Procurar')
+find('.search-icon' ,match: :first).click
 find('#product-list')
 assert_text('Resultados de busca para "Samsung"')
 end
 
 Quando(/^clico no menu lateral Celulares e Smartphones e acesso a pagina$/) do
-click_link('Celulares e Smartphones' ,match: :first)
+find('.sub-menu-item.celulares-e-smartphones-0').click
 end
 
 Então(/^clico em algum Samsung galaxy S(\d+) Edge$/) do |arg1|
@@ -34,10 +34,10 @@ end
 Dado(/^que estou na tela de Samsung Celulares e Smartphones$/) do
 visit 'https://www.walmart.com.br/'
 fill_in('ft', :with => 'Samsung')
-click_button('Procurar')
+find('.search-icon' ,match: :first).click
 find('#product-list')
 assert_text('Resultados de busca para "Samsung"')
-click_link('Celulares e Smartphones' ,match: :first)
+find('.sub-menu-item.celulares-e-smartphones-0').click
 assert_text('SM-G935F')
 end
 
@@ -57,10 +57,16 @@ end
 Dado(/^que realizei a busca filtrando a busca$/) do
 visit 'https://www.walmart.com.br/'
 fill_in('ft', :with => 'Samsung')
-click_button('Procurar')
+
+find('.search-icon' ,match: :first).click
+#click_button('Procurar')
+
 find('#product-list')
 assert_text('Resultados de busca para "Samsung"')
-click_link('Celulares e Smartphones' ,match: :first)
+
+find('.sub-menu-item.celulares-e-smartphones-0').click
+#click_link('Celulares e Smartphones' ,match: :first)
+
 assert_text('SM-G935F')
 click_link('Samsung' ,match: :first)
 click_link('Android' ,match: :first)
@@ -71,13 +77,22 @@ assert_text('SM-G935F Azul')
 end
 
 Quando(/^seleciono o celular adicionando o produto no carrinho$/) do
-click_link('Smartphone Samsung Galaxy S7 Edge SM-G935F Azul Single Chip Android 6.0 4G Wi-Fi Câmera Dual Pixel de 12MP' ,match: :first)
-click_button('Adicionar ao carrinho')
-click_button('Continuar')
+
+find('.column.item-3.shelf-product-item').click
+#click_link('Smartphone Samsung Galaxy S7 Edge SM-G935F Azul Single Chip Android 6.0 4G Wi-Fi Câmera Dual Pixel de 12MP' ,match: :first)
+
+find('.button-success.button-pill.right.buy-button.buy-button-product.fluid').click
+#click_button('Adicionar ao carrinho')
+sleep 2
+
+find('#navegaCarrinho').click
+#click_button('Continuar')
 end
 
 Então(/^na pagina do carrinho o item deverá ser apresentado$/) do
 find('.topbar-buttons.open-link.cart-link').click
+assert_text('Smartphone Samsung Galaxy S7 Edge SM-G935F Azul Single Chip Android 6.0 4G Wi-Fi Câmera Dual Pixel de 12MP')
 
-sleep 10
 end
+
+
